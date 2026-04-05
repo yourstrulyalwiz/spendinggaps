@@ -455,28 +455,6 @@ export function SpendingGapsSection() {
         </div>
       </div>
 
-      {/* Running text */}
-      <div
-        className="mt-8"
-        style={{
-          color: "var(--econ-gray)",
-          fontFamily: "var(--app-font-sans)",
-          fontSize: "0.95rem",
-          lineHeight: 1.7,
-        }}
-      >
-        <p>
-          The global annual financing gap to achieve universal access to safe
-          water and sanitation (SDG 6.1 and 6.2) amounts to{" "}
-          <strong style={{ color: "var(--econ-dark-blue)" }}>
-            ${total} billion
-          </strong>{" "}
-          per year through 2030. Sub-Saharan Africa alone accounts for more
-          than half this gap, at $73.5 billion annually. South Asia follows
-          at $36.1 billion — together, these two regions represent over 77%
-          of global unmet financing needs.
-        </p>
-      </div>
     </section>
   );
 }
