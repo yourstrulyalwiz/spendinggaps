@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 const GEO_URL = "/wb-regions.geojson";
+// Single merged land polygon — no internal country borders
+const LAND_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json";
 
 interface Region {
   id: string;
@@ -144,6 +146,26 @@ export function SpendingGapsSection() {
             style={{ width: "100%", height: "auto" }}
             height={400}
           >
+            {/* Base land layer — single merged polygon, no internal borders */}
+            <Geographies geography={LAND_URL}>
+              {({ geographies }) =>
+                geographies.map((geo) => (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill="#dce8f0"
+                    stroke="none"
+                    style={{
+                      default: { outline: "none" },
+                      hover: { outline: "none" },
+                      pressed: { outline: "none" },
+                    }}
+                  />
+                ))
+              }
+            </Geographies>
+
+            {/* WB region layer — dissolved regions, coloured and clickable */}
             <Geographies geography={GEO_URL}>
               {({ geographies }) =>
                 geographies.map((geo) => {
