@@ -222,7 +222,7 @@ export function SpendingGapsSection() {
               }
             </Geographies>
 
-            {/* Region callout labels */}
+            {/* Region callout labels — rounded badge, uniform navy */}
             {CALLOUTS.map(({ id, subject, dx, dy }) => {
               const region = REGIONS[id];
               if (!region) return null;
@@ -235,8 +235,22 @@ export function SpendingGapsSection() {
                   dy={dy}
                   connectorProps={{ stroke: "none" }}
                 >
+                  {/* Badge background */}
+                  <rect
+                    x={-54}
+                    y={-17}
+                    width={108}
+                    height={36}
+                    rx={5}
+                    ry={5}
+                    fill="#1a3a5c"
+                    opacity={faded ? 0.25 : 0.88}
+                    style={{ pointerEvents: "none" }}
+                  />
+                  {/* Amount */}
                   <text
                     textAnchor="middle"
+                    y={0}
                     fill="white"
                     opacity={faded ? 0.3 : 1}
                     style={{
@@ -248,17 +262,18 @@ export function SpendingGapsSection() {
                   >
                     {region.amount}
                   </text>
+                  {/* Region code */}
                   <text
                     textAnchor="middle"
-                    y={16}
-                    fill="rgba(255,255,255,0.85)"
+                    y={15}
+                    fill="rgba(255,255,255,0.8)"
                     opacity={faded ? 0.3 : 1}
                     style={{
                       fontSize: "9px",
                       fontFamily: "Nunito, sans-serif",
                       fontWeight: 600,
                       pointerEvents: "none",
-                      letterSpacing: "0.03em",
+                      letterSpacing: "0.05em",
                     }}
                   >
                     {id}
