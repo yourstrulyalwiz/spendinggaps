@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
 const GEO_URL = "/wb-regions.geojson";
 // Single merged land polygon — no internal country borders (generated locally)
@@ -104,6 +104,16 @@ const REGIONS: Record<string, Region> = {
 const DEFAULT_FILL = "#c9dae8";
 const DEFAULT_STROKE = "#fff";
 
+// Geographic centroids [lon, lat] for callout labels on the map
+const CALLOUTS: { id: string; subject: [number, number]; dx: number; dy: number }[] = [
+  { id: "SSA",  subject: [22,  -5],  dx:  0,  dy: 0  },
+  { id: "SA",   subject: [79,  26],  dx:  0,  dy: 0  },
+  { id: "LAC",  subject: [-57, -12], dx:  0,  dy: 0  },
+  { id: "MENA", subject: [38,  28],  dx:  0,  dy: 0  },
+  { id: "ECA",  subject: [54,  52],  dx:  0,  dy: 0  },
+  { id: "EAP",  subject: [118, 18],  dx:  0,  dy: 0  },
+];
+
 export function SpendingGapsSection() {
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
 
@@ -135,10 +145,7 @@ export function SpendingGapsSection() {
         {/* Map — takes 2/3 */}
         <div
           className="lg:col-span-2 rounded-sm overflow-hidden"
-          style={{
-            background: "var(--econ-pale-blue)",
-            border: "1px solid var(--econ-rule)",
-          }}
+          style={{ background: "#f8f5f0" }}
         >
           <ComposableMap
             projection="geoNaturalEarth1"
@@ -214,15 +221,57 @@ export function SpendingGapsSection() {
                 })
               }
             </Geographies>
+
+            {/* Region callout labels */}
+            {CALLOUTS.map(({ id, subject, dx, dy }) => {
+              const region = REGIONS[id];
+              if (!region) return null;
+              const faded = activeRegion && activeRegion.id !== id;
+              return (
+                <Annotation
+                  key={id}
+                  subject={subject}
+                  dx={dx}
+                  dy={dy}
+                  connectorProps={{ stroke: "none" }}
+                >
+                  <text
+                    textAnchor="middle"
+                    fill="white"
+                    opacity={faded ? 0.3 : 1}
+                    style={{
+                      fontSize: "13px",
+                      fontFamily: "Nunito, sans-serif",
+                      fontWeight: 800,
+                      pointerEvents: "none",
+                    }}
+                  >
+                    {region.amount}
+                  </text>
+                  <text
+                    textAnchor="middle"
+                    y={16}
+                    fill="rgba(255,255,255,0.85)"
+                    opacity={faded ? 0.3 : 1}
+                    style={{
+                      fontSize: "9px",
+                      fontFamily: "Nunito, sans-serif",
+                      fontWeight: 600,
+                      pointerEvents: "none",
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    {id}
+                  </text>
+                </Annotation>
+              );
+            })}
           </ComposableMap>
 
           {/* Map footer note */}
           <div
             className="px-4 py-2 text-xs flex justify-between"
-            style={{
-              borderTop: "1px solid var(--econ-rule)",
-              color: "var(--econ-gray)",
-            }}
+            style={{ color: "var(--econ-gray)" }}
           >
             <span>Click a region to see details</span>
             {activeRegion && (
