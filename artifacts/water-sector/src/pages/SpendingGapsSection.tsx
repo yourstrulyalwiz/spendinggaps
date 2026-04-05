@@ -123,11 +123,14 @@ export function SpendingGapsSection() {
   const [displayRegion, setDisplayRegion] = useState<Region | null>(null);
   useEffect(() => { if (activeRegion) setDisplayRegion(activeRegion); }, [activeRegion]);
 
-  const navigate = (dir: 1 | -1) => {
+  const navigateNext = () => {
     const currentId = activeRegion?.id ?? REGION_ORDER[0];
     const idx = REGION_ORDER.indexOf(currentId);
-    const nextIdx = (idx + dir + REGION_ORDER.length) % REGION_ORDER.length;
-    setActiveRegion(REGIONS[REGION_ORDER[nextIdx]]);
+    if (idx >= REGION_ORDER.length - 1) {
+      setActiveRegion(null); // close after last region
+    } else {
+      setActiveRegion(REGIONS[REGION_ORDER[idx + 1]]);
+    }
   };
 
   const total = 140.8;
@@ -314,98 +317,68 @@ export function SpendingGapsSection() {
           </div>
         </div>
 
-        {/* Detail overlay — fades in over the right side of the map on click */}
+        {/* Detail overlay — flex row: [card] + [circular next button] */}
         <div
           style={{
             position: "absolute",
             top: 16,
             right: 16,
-            width: 260,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
             opacity: activeRegion ? 1 : 0,
             pointerEvents: activeRegion ? "auto" : "none",
             transition: "opacity 0.35s ease",
             zIndex: 10,
           }}
         >
+          {/* Card */}
           {displayRegion && (
             <div
               className="rounded-sm p-5"
               style={{
+                width: 260,
                 background: "rgba(255,255,255,0.96)",
                 border: "1px solid var(--econ-rule)",
                 borderLeft: `4px solid ${displayRegion.fillColor}`,
                 boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
+                position: "relative",
               }}
             >
-              {/* Navigation row */}
-              <div className="flex items-center justify-between mb-3">
-                <span
-                  className="text-xs uppercase tracking-widest font-semibold"
-                  style={{ color: "var(--econ-gray)" }}
-                >
-                  {REGION_ORDER.indexOf(displayRegion.id) + 1} / {REGION_ORDER.length}
-                </span>
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => navigate(-1)}
-                    title="Previous region"
-                    style={{
-                      width: 26, height: 26,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      border: "1px solid var(--econ-rule)",
-                      borderRadius: 4,
-                      background: "transparent",
-                      cursor: "pointer",
-                      color: "var(--econ-dark-blue)",
-                      fontSize: 14,
-                      lineHeight: 1,
-                    }}
-                  >
-                    ‹
-                  </button>
-                  <button
-                    onClick={() => navigate(1)}
-                    title="Next region"
-                    style={{
-                      width: 26, height: 26,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      border: "1px solid var(--econ-rule)",
-                      borderRadius: 4,
-                      background: "transparent",
-                      cursor: "pointer",
-                      color: "var(--econ-dark-blue)",
-                      fontSize: 14,
-                      lineHeight: 1,
-                    }}
-                  >
-                    ›
-                  </button>
-                </div>
-              </div>
+              {/* Counter — top right of card */}
+              <span
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 12,
+                  fontSize: 10,
+                  fontFamily: "Nunito, sans-serif",
+                  fontWeight: 700,
+                  color: "var(--econ-gray)",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {REGION_ORDER.indexOf(displayRegion.id) + 1} / {REGION_ORDER.length}
+              </span>
 
+              {/* Amount */}
               <p
                 className="font-heading font-black text-2xl leading-tight"
                 style={{
-                  color: displayRegion.highlight
-                    ? "var(--econ-red)"
-                    : "var(--econ-dark-blue)",
+                  color: displayRegion.highlight ? "var(--econ-red)" : "var(--econ-dark-blue)",
+                  paddingRight: 36,
                 }}
               >
                 {displayRegion.amount}
               </p>
-              <p
-                className="font-heading font-semibold text-sm mt-0.5"
-                style={{ color: displayRegion.fillColor }}
-              >
+              <p className="font-heading font-semibold text-sm mt-0.5" style={{ color: displayRegion.fillColor }}>
                 {displayRegion.label}
               </p>
-              <p
-                className="text-xs uppercase tracking-wide font-semibold mt-1 mb-3"
-                style={{ color: "var(--econ-gray)" }}
-              >
+              <p className="text-xs uppercase tracking-wide font-semibold mt-1 mb-3" style={{ color: "var(--econ-gray)" }}>
                 Annual spending gap
               </p>
-              {/* Share of global total bar */}
+
+              {/* Share bar */}
               <div className="mb-3">
                 <div className="text-xs mb-1" style={{ color: "var(--econ-gray)" }}>
                   Share of $140.8bn global gap
@@ -425,11 +398,60 @@ export function SpendingGapsSection() {
                   {((displayRegion.amountNum / 140.8) * 100).toFixed(1)}%
                 </div>
               </div>
+
               <p className="text-xs leading-relaxed" style={{ color: "#444" }}>
                 {displayRegion.detail}
               </p>
+
+              {/* Close button — bottom right */}
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
+                <button
+                  onClick={() => setActiveRegion(null)}
+                  style={{
+                    fontSize: 10,
+                    fontFamily: "Nunito, sans-serif",
+                    fontWeight: 700,
+                    letterSpacing: "0.06em",
+                    color: "var(--econ-gray)",
+                    textTransform: "uppercase",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                  }}
+                >
+                  Close ✕
+                </button>
+              </div>
             </div>
           )}
+
+          {/* Circular next button — outside card, vertically centred by flex */}
+          <button
+            onClick={navigateNext}
+            title={
+              activeRegion && REGION_ORDER.indexOf(activeRegion.id) >= REGION_ORDER.length - 1
+                ? "Close"
+                : "Next region"
+            }
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              background: "#1a3a5c",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              fontSize: 20,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+            }}
+          >
+            ›
+          </button>
         </div>
       </div>
 
