@@ -41,8 +41,8 @@
   --accent: 214 47% 28%;
   --accent-foreground: 0 0% 100%;
 
-  --app-font-sans: 'Source Serif 4', Georgia, serif;
-  --app-font-serif: 'Source Serif 4', Georgia, serif;
+  --app-font-sans: 'Nunito', sans-serif;
+  --app-font-serif: 'Nunito', sans-serif;
   --app-font-heading: 'Playfair Display', Georgia, serif;
 
   /* Economist color palette */
