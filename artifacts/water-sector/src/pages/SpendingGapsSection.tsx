@@ -141,10 +141,11 @@ export function SpendingGapsSection() {
           }}
         >
           <ComposableMap
-            projection="geoMercator"
-            projectionConfig={{ scale: 118, center: [18, 12] }}
-            style={{ width: "100%", height: "auto" }}
-            height={400}
+            projection="geoNaturalEarth1"
+            projectionConfig={{ scale: 162, center: [10, 18] }}
+            style={{ width: "100%", height: "auto", display: "block" }}
+            width={960}
+            height={490}
           >
             {/* Base land layer — single merged polygon, no internal borders */}
             <Geographies geography={LAND_URL}>
