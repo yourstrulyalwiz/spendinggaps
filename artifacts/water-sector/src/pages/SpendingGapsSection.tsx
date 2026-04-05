@@ -142,7 +142,7 @@ export function SpendingGapsSection() {
         >
           <ComposableMap
             projection="geoNaturalEarth1"
-            projectionConfig={{ scale: 162, center: [10, 18] }}
+            projectionConfig={{ scale: 195, center: [10, 15] }}
             style={{ width: "100%", height: "auto", display: "block" }}
             width={960}
             height={490}
