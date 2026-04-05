@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
 const GEO_URL = "/wb-regions.geojson";
@@ -116,6 +116,9 @@ const CALLOUTS: { id: string; subject: [number, number]; dx: number; dy: number 
 
 export function SpendingGapsSection() {
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
+  // Keeps last selected region visible while the overlay fades out
+  const [displayRegion, setDisplayRegion] = useState<Region | null>(null);
+  useEffect(() => { if (activeRegion) setDisplayRegion(activeRegion); }, [activeRegion]);
 
   const total = 140.8;
 
@@ -141,10 +144,10 @@ export function SpendingGapsSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Map — takes 2/3 */}
+      <div className="relative">
+        {/* Map — full width */}
         <div
-          className="lg:col-span-2 rounded-sm overflow-hidden"
+          className="rounded-sm overflow-hidden"
           style={{ background: "#f8f5f0" }}
         >
           <ComposableMap
@@ -301,33 +304,44 @@ export function SpendingGapsSection() {
           </div>
         </div>
 
-        {/* Side panel — takes 1/3 */}
-        <div className="flex flex-col gap-4">
-          {activeRegion ? (
-            /* Selected region detail card */
+        {/* Detail overlay — fades in over the right side of the map on click */}
+        <div
+          style={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+            width: 260,
+            opacity: activeRegion ? 1 : 0,
+            pointerEvents: activeRegion ? "auto" : "none",
+            transition: "opacity 0.35s ease",
+            zIndex: 10,
+          }}
+        >
+          {displayRegion && (
             <div
               className="rounded-sm p-5"
               style={{
-                background: "white",
+                background: "rgba(255,255,255,0.96)",
                 border: "1px solid var(--econ-rule)",
-                borderLeft: `4px solid ${activeRegion.fillColor}`,
+                borderLeft: `4px solid ${displayRegion.fillColor}`,
+                boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
               }}
             >
               <p
-                className="font-heading font-black text-3xl leading-tight"
+                className="font-heading font-black text-2xl leading-tight"
                 style={{
-                  color: activeRegion.highlight
+                  color: displayRegion.highlight
                     ? "var(--econ-red)"
                     : "var(--econ-dark-blue)",
                 }}
               >
-                {activeRegion.amount}
+                {displayRegion.amount}
               </p>
               <p
-                className="font-heading font-semibold text-base mt-0.5"
-                style={{ color: activeRegion.fillColor }}
+                className="font-heading font-semibold text-sm mt-0.5"
+                style={{ color: displayRegion.fillColor }}
               >
-                {activeRegion.label}
+                {displayRegion.label}
               </p>
               <p
                 className="text-xs uppercase tracking-wide font-semibold mt-1 mb-3"
@@ -337,82 +351,29 @@ export function SpendingGapsSection() {
               </p>
               {/* Share of global total bar */}
               <div className="mb-3">
-                <div
-                  className="text-xs mb-1"
-                  style={{ color: "var(--econ-gray)" }}
-                >
+                <div className="text-xs mb-1" style={{ color: "var(--econ-gray)" }}>
                   Share of $140.8bn global gap
                 </div>
-                <div
-                  style={{
-                    height: 6,
-                    background: "#e5e7eb",
-                    borderRadius: 3,
-                    overflow: "hidden",
-                  }}
-                >
+                <div style={{ height: 6, background: "#e5e7eb", borderRadius: 3, overflow: "hidden" }}>
                   <div
                     style={{
                       height: "100%",
-                      width: `${(activeRegion.amountNum / 140.8) * 100}%`,
-                      background: activeRegion.fillColor,
+                      width: `${(displayRegion.amountNum / 140.8) * 100}%`,
+                      background: displayRegion.fillColor,
                       borderRadius: 3,
                       transition: "width 0.4s ease",
                     }}
                   />
                 </div>
-                <div
-                  className="text-xs mt-0.5 text-right"
-                  style={{ color: "var(--econ-gray)" }}
-                >
-                  {((activeRegion.amountNum / 140.8) * 100).toFixed(1)}%
+                <div className="text-xs mt-0.5 text-right" style={{ color: "var(--econ-gray)" }}>
+                  {((displayRegion.amountNum / 140.8) * 100).toFixed(1)}%
                 </div>
               </div>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "#444" }}
-              >
-                {activeRegion.detail}
-              </p>
-            </div>
-          ) : (
-            /* Default summary card */
-            <div
-              className="rounded-sm p-5"
-              style={{
-                background: "white",
-                border: "1px solid var(--econ-rule)",
-                borderLeft: "4px solid var(--econ-red)",
-              }}
-            >
-              <p
-                className="font-heading font-black text-3xl leading-tight"
-                style={{ color: "var(--econ-red)" }}
-              >
-                ${total}bn
-              </p>
-              <p
-                className="font-heading font-semibold text-lg mt-0.5"
-                style={{ color: "var(--econ-dark-blue)" }}
-              >
-                Global annual gap
-              </p>
-              <p
-                className="text-sm mt-3 leading-relaxed"
-                style={{ color: "#555" }}
-              >
-                Select a coloured region on the map to explore its spending
-                gap, context, and share of the global total.
-              </p>
-              <p
-                className="text-xs mt-2"
-                style={{ color: "var(--econ-gray)" }}
-              >
-                Regions shown: SSA · SA · MENA · LAC · ECA · EAP
+              <p className="text-xs leading-relaxed" style={{ color: "#444" }}>
+                {displayRegion.detail}
               </p>
             </div>
           )}
-
         </div>
       </div>
 
