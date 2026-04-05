@@ -369,37 +369,6 @@ export function BudgetExecutionSection() {
                 </p>
               </div>
 
-              {/* Quick stats grid */}
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                {sectors.map((s) => (
-                  <button
-                    key={s.id}
-                    onMouseEnter={() => setHoveredBar(s)}
-                    onMouseLeave={() => setHoveredBar(null)}
-                    onClick={() =>
-                      setActiveBar((prev) => (prev?.id === s.id ? null : s))
-                    }
-                    className="text-left p-3 rounded-sm transition-all"
-                    style={{
-                      background: "white",
-                      border: "1px solid var(--econ-rule)",
-                      borderLeft: `3px solid ${s.color}`,
-                      cursor: "pointer",
-                    }}
-                  >
-                    <p
-                      className="font-heading font-bold text-xl"
-                      style={{ color: s.color }}
-                    >
-                      {s.executed}%
-                    </p>
-                    <p className="text-xs" style={{ color: "var(--econ-gray)" }}>
-                      {s.label}
-                      {s.sublabel ? ` ${s.sublabel}` : ""}
-                    </p>
-                  </button>
-                ))}
-              </div>
             </div>
           )}
         </div>
