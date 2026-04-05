@@ -104,6 +104,9 @@ const REGIONS: Record<string, Region> = {
 const DEFAULT_FILL = "#c9dae8";
 const DEFAULT_STROKE = "#fff";
 
+// Navigation order for the overlay card (largest gap first)
+const REGION_ORDER = ["SSA", "SA", "LAC", "MENA", "ECA", "EAP"];
+
 // Geographic centroids [lon, lat] for callout labels on the map
 const CALLOUTS: { id: string; subject: [number, number]; dx: number; dy: number }[] = [
   { id: "SSA",  subject: [22,  -5],  dx:  0,  dy: 0  },
@@ -119,6 +122,13 @@ export function SpendingGapsSection() {
   // Keeps last selected region visible while the overlay fades out
   const [displayRegion, setDisplayRegion] = useState<Region | null>(null);
   useEffect(() => { if (activeRegion) setDisplayRegion(activeRegion); }, [activeRegion]);
+
+  const navigate = (dir: 1 | -1) => {
+    const currentId = activeRegion?.id ?? REGION_ORDER[0];
+    const idx = REGION_ORDER.indexOf(currentId);
+    const nextIdx = (idx + dir + REGION_ORDER.length) % REGION_ORDER.length;
+    setActiveRegion(REGIONS[REGION_ORDER[nextIdx]]);
+  };
 
   const total = 140.8;
 
@@ -327,6 +337,52 @@ export function SpendingGapsSection() {
                 boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
               }}
             >
+              {/* Navigation row */}
+              <div className="flex items-center justify-between mb-3">
+                <span
+                  className="text-xs uppercase tracking-widest font-semibold"
+                  style={{ color: "var(--econ-gray)" }}
+                >
+                  {REGION_ORDER.indexOf(displayRegion.id) + 1} / {REGION_ORDER.length}
+                </span>
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => navigate(-1)}
+                    title="Previous region"
+                    style={{
+                      width: 26, height: 26,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      border: "1px solid var(--econ-rule)",
+                      borderRadius: 4,
+                      background: "transparent",
+                      cursor: "pointer",
+                      color: "var(--econ-dark-blue)",
+                      fontSize: 14,
+                      lineHeight: 1,
+                    }}
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={() => navigate(1)}
+                    title="Next region"
+                    style={{
+                      width: 26, height: 26,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      border: "1px solid var(--econ-rule)",
+                      borderRadius: 4,
+                      background: "transparent",
+                      cursor: "pointer",
+                      color: "var(--econ-dark-blue)",
+                      fontSize: 14,
+                      lineHeight: 1,
+                    }}
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
+
               <p
                 className="font-heading font-black text-2xl leading-tight"
                 style={{
