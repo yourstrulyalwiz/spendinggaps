@@ -413,45 +413,6 @@ export function SpendingGapsSection() {
             </div>
           )}
 
-          {/* Region quick-select list */}
-          <div className="flex flex-col gap-2">
-            {Object.values(REGIONS)
-              .sort((a, b) => b.amountNum - a.amountNum)
-              .map((r) => (
-                <button
-                  key={r.id}
-                  onClick={() =>
-                    setActiveRegion((prev) =>
-                      prev?.id === r.id ? null : r
-                    )
-                  }
-                  className="text-left px-3 py-2 rounded-sm flex items-center justify-between transition-all"
-                  style={{
-                    background:
-                      activeRegion?.id === r.id
-                        ? "var(--econ-pale-blue)"
-                        : "white",
-                    border: "1px solid var(--econ-rule)",
-                    borderLeft: `3px solid ${r.fillColor}`,
-                  }}
-                >
-                  <span
-                    className="text-xs font-semibold"
-                    style={{ color: "var(--econ-gray)" }}
-                  >
-                    {r.id}
-                  </span>
-                  <span
-                    className="font-heading font-bold text-sm"
-                    style={{
-                      color: r.highlight ? "var(--econ-red)" : "var(--econ-dark-blue)",
-                    }}
-                  >
-                    {r.amount}
-                  </span>
-                </button>
-              ))}
-          </div>
         </div>
       </div>
 
