@@ -44,9 +44,9 @@ const REGIONS: Record<string, Region> = {
       "South Asia faces a $36.1 billion annual gap, driven by rapid population growth and expanding urban informal settlements.",
     detail:
       "South Asia requires $36.1 billion per year, with India and Pakistan accounting for the bulk of unmet needs. Rapid urbanisation and expanding peri-urban informal settlements outpace infrastructure investment.",
-    fillColor: "#b83838",
-    hoverColor: "#cc4040",
-    activeColor: "#9f2f2f",
+    fillColor: "#b85c70",
+    hoverColor: "#c96880",
+    activeColor: "#a54f62",
   },
   LAC: {
     id: "LAC",
@@ -57,9 +57,9 @@ const REGIONS: Record<string, Region> = {
       "LAC requires $13.1 billion annually, with significant rural-urban disparities.",
     detail:
       "Latin America & Caribbean requires $13.1 billion annually. Despite better-than-average regional coverage, significant gaps persist in rural areas and among Indigenous and Afro-descendant communities in Bolivia, Haiti, and Central America.",
-    fillColor: "#d06868",
-    hoverColor: "#db7878",
-    activeColor: "#ba5858",
+    fillColor: "#d4909e",
+    hoverColor: "#dea0ac",
+    activeColor: "#c07f8c",
   },
   MENA: {
     id: "MENA",
@@ -72,7 +72,7 @@ const REGIONS: Record<string, Region> = {
       "The Middle East & North Africa region needs $12.1 billion annually. Extreme water scarcity, protracted conflicts, and displacement crises compound infrastructure underinvestment, particularly in Yemen, Libya, and Syria.",
     fillColor: "#6699cc",
     hoverColor: "#75a8d8",
-    activeColor: "#5588b8",
+    activeColor: "#5588b5",
   },
   ECA: {
     id: "ECA",
@@ -83,9 +83,9 @@ const REGIONS: Record<string, Region> = {
       "ECA has the smallest gap at $3.2 billion, reflecting higher baseline infrastructure coverage.",
     detail:
       "Europe & Central Asia has the smallest financing gap at $3.2 billion, reflecting relatively higher baseline infrastructure coverage. Remaining gaps are concentrated in Central Asian republics and the Western Balkans.",
-    fillColor: "#3366a0",
-    hoverColor: "#3a74b5",
-    activeColor: "#2a578a",
+    fillColor: "#2e6da4",
+    hoverColor: "#3478b5",
+    activeColor: "#265e90",
   },
   EAP: {
     id: "EAP",
