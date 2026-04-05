@@ -405,30 +405,6 @@ export function BudgetExecutionSection() {
         </div>
       </div>
 
-      {/* Running text */}
-      <div
-        className="mt-8 max-w-none"
-        style={{
-          color: "var(--econ-gray)",
-          fontFamily: "var(--app-font-sans)",
-          fontSize: "0.95rem",
-          lineHeight: 1.7,
-        }}
-      >
-        <p>
-          Across sectors, budget execution rates in 2009–20 ranged from 99%
-          (Human Development) to just{" "}
-          <strong style={{ color: "var(--econ-red)" }}>
-            72% for water
-          </strong>{" "}
-          — the weakest performer. While the human development and transport
-          sectors demonstrate strong institutional capacity to absorb and deploy
-          funds, the water sector's systemic underperformance points to deep
-          structural constraints: limited project management capacity, complex
-          procurement, and fragmented oversight. Closing this gap requires not
-          just more financing but stronger systems to spend it effectively.
-        </p>
-      </div>
     </section>
   );
 }
