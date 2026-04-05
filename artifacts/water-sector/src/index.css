@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-heading: var(--app-font-heading);
+}
+
+:root {
+  --background: 36 33% 97%;
+  --foreground: 220 13% 18%;
+  --border: 220 13% 85%;
+  --input: 220 13% 85%;
+  --ring: 220 13% 50%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 13% 18%;
+  --primary: 346 72% 35%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 214 47% 28%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 220 14% 94%;
+  --muted-foreground: 220 9% 46%;
+  --accent: 214 47% 28%;
+  --accent-foreground: 0 0% 100%;
+
+  --app-font-sans: 'Source Serif 4', Georgia, serif;
+  --app-font-serif: 'Source Serif 4', Georgia, serif;
+  --app-font-heading: 'Playfair Display', Georgia, serif;
+
+  /* Economist color palette */
+  --econ-red: #8b1a2d;
+  --econ-dark-blue: #1a3a5c;
+  --econ-mid-blue: #2e6da4;
+  --econ-light-blue: #90b8d8;
+  --econ-pale-blue: #d8e8f0;
+  --econ-light-pink: #e8b4c0;
+  --econ-paper: #f8f5f0;
+  --econ-light-paper: #fdfaf7;
+  --econ-rule: #c8b8a2;
+  --econ-gray: #6b7280;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply antialiased;
+    background-color: var(--econ-paper);
+    color: hsl(var(--foreground));
+    font-family: var(--app-font-sans);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+}
+
+.font-heading {
+  font-family: var(--app-font-heading);
+}
+
+.econ-rule {
+  border-top: 3px solid var(--econ-red);
+  border-bottom: 1px solid var(--econ-rule);
+}
+
+.econ-section-rule {
+  border-top: 1px solid var(--econ-rule);
+}
+
+.tooltip-box {
+  pointer-events: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-left: 4px solid var(--econ-red);
+  padding: 10px 14px;
+  font-family: var(--app-font-sans);
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  z-index: 100;
+  min-width: 140px;
+}

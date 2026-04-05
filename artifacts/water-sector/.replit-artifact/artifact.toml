@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Water Sector Data Story"
+version = "1.0.0"
+id = "artifacts/water-sector"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25714
+
+[services.development]
+run = "pnpm --filter @workspace/water-sector run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/water-sector", "run", "build" ]
+publicDir = "artifacts/water-sector/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25714"
+BASE_PATH = "/"
