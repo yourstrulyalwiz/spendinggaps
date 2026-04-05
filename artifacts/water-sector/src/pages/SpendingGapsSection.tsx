@@ -2,8 +2,8 @@ import { useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 const GEO_URL = "/wb-regions.geojson";
-// Single merged land polygon — no internal country borders
-const LAND_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json";
+// Single merged land polygon — no internal country borders (generated locally)
+const LAND_URL = "/world-land.geojson";
 
 interface Region {
   id: string;
@@ -153,8 +153,9 @@ export function SpendingGapsSection() {
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill="#dce8f0"
-                    stroke="none"
+                    fill="#c8d8e4"
+                    stroke="#a8bfce"
+                    strokeWidth={0.3}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none" },
