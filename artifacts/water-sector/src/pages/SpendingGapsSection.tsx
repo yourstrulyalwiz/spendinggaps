@@ -19,6 +19,8 @@ interface Region {
 }
 
 const REGIONS: Record<string, Region> = {
+  // Ordinal colour scale: dark crimson → rust → terracotta → steel blue → medium navy → dark navy
+  // ordered by spending gap (largest → smallest)
   SSA: {
     id: "SSA",
     label: "Sub-Saharan Africa",
@@ -29,9 +31,9 @@ const REGIONS: Record<string, Region> = {
       "SSA has the largest annual water and sanitation spending gap — nearly half of the global total.",
     detail:
       "Sub-Saharan Africa needs $73.5 billion annually to close its water and sanitation financing gap. This represents over 52% of the global total, driven by rapid population growth, weak utilities, and large rural-urban service disparities.",
-    fillColor: "#7a1128",
-    hoverColor: "#8b1a2d",
-    activeColor: "#6d0f22",
+    fillColor: "#8b1a2d",
+    hoverColor: "#a01f35",
+    activeColor: "#75151f",
   },
   SA: {
     id: "SA",
@@ -42,22 +44,9 @@ const REGIONS: Record<string, Region> = {
       "South Asia faces a $36.1 billion annual gap, driven by rapid population growth and expanding urban informal settlements.",
     detail:
       "South Asia requires $36.1 billion per year, with India and Pakistan accounting for the bulk of unmet needs. Rapid urbanisation and expanding peri-urban informal settlements outpace infrastructure investment.",
-    fillColor: "#1a3a5c",
-    hoverColor: "#1e4570",
-    activeColor: "#163256",
-  },
-  MENA: {
-    id: "MENA",
-    label: "Middle East & North Africa",
-    amount: "$12.1 billion",
-    amountNum: 12.1,
-    description:
-      "MENA faces a $12.1 billion gap, compounded by water scarcity and conflict.",
-    detail:
-      "The Middle East & North Africa region needs $12.1 billion annually. Extreme water scarcity, protracted conflicts, and displacement crises compound infrastructure underinvestment, particularly in Yemen, Libya, and Syria.",
-    fillColor: "#2e6da4",
-    hoverColor: "#3478b5",
-    activeColor: "#265e90",
+    fillColor: "#b03a2e",
+    hoverColor: "#c44232",
+    activeColor: "#963224",
   },
   LAC: {
     id: "LAC",
@@ -68,9 +57,22 @@ const REGIONS: Record<string, Region> = {
       "LAC requires $13.1 billion annually, with significant rural-urban disparities.",
     detail:
       "Latin America & Caribbean requires $13.1 billion annually. Despite better-than-average regional coverage, significant gaps persist in rural areas and among Indigenous and Afro-descendant communities in Bolivia, Haiti, and Central America.",
-    fillColor: "#2e6da4",
-    hoverColor: "#3478b5",
-    activeColor: "#265e90",
+    fillColor: "#c46a3c",
+    hoverColor: "#d67844",
+    activeColor: "#aa5b32",
+  },
+  MENA: {
+    id: "MENA",
+    label: "Middle East & North Africa",
+    amount: "$12.1 billion",
+    amountNum: 12.1,
+    description:
+      "MENA faces a $12.1 billion gap, compounded by water scarcity and conflict.",
+    detail:
+      "The Middle East & North Africa region needs $12.1 billion annually. Extreme water scarcity, protracted conflicts, and displacement crises compound infrastructure underinvestment, particularly in Yemen, Libya, and Syria.",
+    fillColor: "#4580a8",
+    hoverColor: "#4f90bc",
+    activeColor: "#3b6e90",
   },
   ECA: {
     id: "ECA",
@@ -81,9 +83,9 @@ const REGIONS: Record<string, Region> = {
       "ECA has the smallest gap at $3.2 billion, reflecting higher baseline infrastructure coverage.",
     detail:
       "Europe & Central Asia has the smallest financing gap at $3.2 billion, reflecting relatively higher baseline infrastructure coverage. Remaining gaps are concentrated in Central Asian republics and the Western Balkans.",
-    fillColor: "#2e6da4",
-    hoverColor: "#3478b5",
-    activeColor: "#265e90",
+    fillColor: "#2b5e8f",
+    hoverColor: "#306aa0",
+    activeColor: "#24507a",
   },
   EAP: {
     id: "EAP",
@@ -94,9 +96,9 @@ const REGIONS: Record<string, Region> = {
       "EAP requires $2.9 billion annually, with large variation across the region.",
     detail:
       "East Asia & Pacific requires $2.9 billion annually — the smallest gap reflecting major gains from China and Southeast Asian economies. Remaining needs are concentrated in Pacific Island states and rural Myanmar and Timor-Leste.",
-    fillColor: "#2e6da4",
-    hoverColor: "#3478b5",
-    activeColor: "#265e90",
+    fillColor: "#1a3a5c",
+    hoverColor: "#1f4368",
+    activeColor: "#152f4c",
   },
 };
 
