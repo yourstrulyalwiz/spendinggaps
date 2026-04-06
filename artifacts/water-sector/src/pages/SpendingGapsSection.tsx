@@ -374,13 +374,13 @@ export function SpendingGapsSection() {
               <p
                 className="font-heading font-black text-2xl leading-tight"
                 style={{
-                  color: displayRegion.highlight ? "var(--econ-red)" : "var(--econ-dark-blue)",
+                  color: "var(--econ-red)",
                   paddingRight: 36,
                 }}
               >
                 {displayRegion.amount}
               </p>
-              <p className="font-heading font-semibold text-sm mt-0.5" style={{ color: displayRegion.fillColor }}>
+              <p className="font-heading font-semibold text-sm mt-0.5" style={{ color: "#555" }}>
                 {displayRegion.label}
               </p>
               <p className="text-xs uppercase tracking-wide font-semibold mt-1 mb-3" style={{ color: "var(--econ-gray)" }}>
