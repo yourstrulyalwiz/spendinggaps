@@ -546,6 +546,20 @@ export function SpendingGapsSection() {
         </div>
       </div>
 
+      {/* Source citation */}
+      <p className="mt-6 text-xs leading-relaxed" style={{ color: "var(--econ-gray)" }}>
+        <span className="font-semibold">Source:</span> Joseph, George; Hoo, Yi Rong; Wang, Qiao; Bahuguna, Aroha; Andres, Luis Alberto.{" "}
+        <em>Funding a Water-Secure Future: An Assessment of Global Public Spending</em> (English).
+        Washington, D.C.: World Bank Group.{" "}
+        <a
+          href="http://documents.worldbank.org/curated/en/099050624154572979"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "var(--econ-mid-blue)", textDecoration: "underline" }}
+        >
+          documents.worldbank.org
+        </a>
+      </p>
     </section>
   );
 }
