@@ -65,11 +65,23 @@ const sectors: SectorData[] = [
 const CHART_H = 280; // total chart drawing area height
 const GRIDLINES = [0, 25, 50, 75, 100];
 
+const SECTOR_ORDER = sectors.map((s) => s.id);
+
 export function BudgetExecutionSection() {
   const [activeBar, setActiveBar] = useState<SectorData | null>(null);
   const [hoveredBar, setHoveredBar] = useState<SectorData | null>(null);
 
   const focused = hoveredBar || activeBar;
+
+  const navigateNext = () => {
+    const currentIdx = activeBar ? SECTOR_ORDER.indexOf(activeBar.id) : -1;
+    const nextIdx = currentIdx + 1;
+    if (nextIdx >= SECTOR_ORDER.length) {
+      setActiveBar(null);
+    } else {
+      setActiveBar(sectors[nextIdx]);
+    }
+  };
 
   return (
     <section>
@@ -275,8 +287,9 @@ export function BudgetExecutionSection() {
           </div>
         </div>
 
-        {/* ── Detail / callout panel ── */}
-        <div>
+        {/* ── Detail / callout panel + nav button ── */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ flex: 1 }}>
           {focused ? (
             <div
               className="rounded-sm p-6"
@@ -371,6 +384,35 @@ export function BudgetExecutionSection() {
 
             </div>
           )}
+          </div>
+
+          {/* Circular next button */}
+          <button
+            onClick={navigateNext}
+            title={
+              activeBar && SECTOR_ORDER.indexOf(activeBar.id) >= SECTOR_ORDER.length - 1
+                ? "Reset"
+                : "Next sector"
+            }
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              background: "var(--econ-dark-blue)",
+              color: "#fff",
+              border: "none",
+              cursor: "pointer",
+              fontSize: 20,
+              lineHeight: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+              boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
+            }}
+          >
+            ›
+          </button>
         </div>
       </div>
 
