@@ -118,12 +118,12 @@ const REGION_ORDER = ["SSA", "SA", "LAC", "MENA", "ECA", "EAP"];
 
 // Geographic centroids [lon, lat] for callout labels on the map
 const CALLOUTS: { id: string; subject: [number, number]; dx: number; dy: number }[] = [
-  { id: "SSA",  subject: [22,  -5],  dx:  0,  dy: 0  },
-  { id: "SA",   subject: [79,  26],  dx:  0,  dy: 0  },
-  { id: "LAC",  subject: [-57, -12], dx:  0,  dy: 0  },
-  { id: "MENA", subject: [38,  28],  dx:  0,  dy: 0  },
-  { id: "ECA",  subject: [54,  52],  dx:  0,  dy: 0  },
-  { id: "EAP",  subject: [118, 18],  dx:  0,  dy: 0  },
+  { id: "SSA",  subject: [22,  -4],  dx:  0,  dy: 0  },
+  { id: "SA",   subject: [80,  27],  dx:  0,  dy: 0  },
+  { id: "LAC",  subject: [-60, -16], dx:  0,  dy: 0  },
+  { id: "MENA", subject: [27,  22],  dx:  0,  dy: 0  },
+  { id: "ECA",  subject: [62,  54],  dx:  0,  dy: 0  },
+  { id: "EAP",  subject: [130, 20],  dx:  0,  dy: 0  },
 ];
 
 export function SpendingGapsSection() {
@@ -263,12 +263,12 @@ export function SpendingGapsSection() {
                 >
                   {/* Badge background */}
                   <rect
-                    x={-54}
-                    y={-17}
-                    width={108}
-                    height={36}
-                    rx={5}
-                    ry={5}
+                    x={-64}
+                    y={-22}
+                    width={128}
+                    height={44}
+                    rx={6}
+                    ry={6}
                     fill="#1a3a5c"
                     opacity={faded ? 0.25 : 0.88}
                     style={{ pointerEvents: "none" }}
@@ -276,11 +276,11 @@ export function SpendingGapsSection() {
                   {/* Amount */}
                   <text
                     textAnchor="middle"
-                    y={0}
+                    y={-2}
                     fill="white"
                     opacity={faded ? 0.3 : 1}
                     style={{
-                      fontSize: "13px",
+                      fontSize: "15px",
                       fontFamily: "Nunito, sans-serif",
                       fontWeight: 800,
                       pointerEvents: "none",
@@ -291,15 +291,15 @@ export function SpendingGapsSection() {
                   {/* Region code */}
                   <text
                     textAnchor="middle"
-                    y={15}
+                    y={16}
                     fill="rgba(255,255,255,0.8)"
                     opacity={faded ? 0.3 : 1}
                     style={{
-                      fontSize: "9px",
+                      fontSize: "11px",
                       fontFamily: "Nunito, sans-serif",
                       fontWeight: 600,
                       pointerEvents: "none",
-                      letterSpacing: "0.05em",
+                      letterSpacing: "0.06em",
                     }}
                   >
                     {id}
