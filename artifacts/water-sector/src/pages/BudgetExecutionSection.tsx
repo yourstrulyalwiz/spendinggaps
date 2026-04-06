@@ -305,11 +305,7 @@ export function BudgetExecutionSection() {
             >
               <p
                 className="font-heading font-black text-4xl leading-tight"
-                style={{
-                  color: focused.highlight
-                    ? "var(--econ-red)"
-                    : "var(--econ-dark-blue)",
-                }}
+                style={{ color: focused.color }}
               >
                 {focused.executed}%
               </p>
