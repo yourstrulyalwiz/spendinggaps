@@ -95,7 +95,7 @@ export function BudgetExecutionSection() {
   return (
     <section>
       {/* Section header */}
-      <div className="econ-rule pb-4 mb-6">
+      <div className="pb-4 mb-6" style={{ borderTop: "3px solid var(--econ-red)" }}>
         <h2
           className="font-heading text-3xl font-bold mt-3"
           style={{ color: "var(--econ-dark-blue)" }}
@@ -113,7 +113,6 @@ export function BudgetExecutionSection() {
           className="rounded-sm p-6"
           style={{
             background: "var(--econ-pale-blue)",
-            border: "1px solid var(--econ-rule)",
           }}
         >
           {/* Chart area */}
@@ -242,10 +241,7 @@ export function BudgetExecutionSection() {
                     (hoveredBar?.id === s.id || activeBar?.id === s.id)
                       ? s.color
                       : "var(--econ-gray)",
-                  fontWeight:
-                    hoveredBar?.id === s.id || activeBar?.id === s.id
-                      ? 600
-                      : 400,
+                  fontWeight: 600,
                   transition: "color 0.15s",
                   lineHeight: 1.3,
                 }}
@@ -264,7 +260,6 @@ export function BudgetExecutionSection() {
           {/* Legend */}
           <div
             className="flex items-center gap-4 mt-4 pt-3"
-            style={{ borderTop: "1px solid var(--econ-rule)" }}
           >
             <div className="flex items-center gap-1.5">
               <div
