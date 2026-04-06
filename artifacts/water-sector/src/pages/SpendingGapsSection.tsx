@@ -479,7 +479,7 @@ export function SpendingGapsSection() {
                   required % 1 === 0 ? required.toFixed(0) : required.toFixed(1);
                 return (
                   <p className="text-xs leading-relaxed" style={{ color: "#444" }}>
-                    The region currently spends <strong>${current}bn</strong> per year on water and
+                    <strong>{displayRegion.id}</strong> currently spends <strong>${current}bn</strong> per year on water and
                     sanitation. Closing the <strong>{displayRegion.amount}</strong> annual gap
                     requires <strong>${reqStr}bn</strong> — <strong>{mult}</strong> more than
                     current spending levels.
