@@ -403,7 +403,7 @@ export function SpendingGapsSection() {
                     </div>
                     {/* Dollar labels above dots */}
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: displayRegion.fillColor }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: "var(--econ-red)" }}>
                         ${current}bn
                       </span>
                       <span style={{ fontSize: 10, fontWeight: 700, color: "var(--econ-dark-blue)" }}>
@@ -442,7 +442,7 @@ export function SpendingGapsSection() {
                         width: 14,
                         height: 14,
                         borderRadius: "50%",
-                        background: displayRegion.fillColor,
+                        background: "var(--econ-red)",
                         border: "2px solid #fff",
                         boxShadow: "0 1px 3px rgba(0,0,0,0.18)",
                       }} />
@@ -467,9 +467,25 @@ export function SpendingGapsSection() {
                 );
               })()}
 
-              <p className="text-xs leading-relaxed" style={{ color: "#444" }}>
-                {displayRegion.detail}
-              </p>
+              {(() => {
+                const current = displayRegion.currentSpend;
+                const required = current + displayRegion.amountNum;
+                const multiplier = required / current;
+                const mult =
+                  multiplier >= 10
+                    ? `${Math.round(multiplier)}×`
+                    : `${multiplier.toFixed(1)}×`;
+                const reqStr =
+                  required % 1 === 0 ? required.toFixed(0) : required.toFixed(1);
+                return (
+                  <p className="text-xs leading-relaxed" style={{ color: "#444" }}>
+                    The region currently spends <strong>${current}bn</strong> per year on water and
+                    sanitation. Closing the <strong>{displayRegion.amount}</strong> annual gap
+                    requires <strong>${reqStr}bn</strong> — <strong>{mult}</strong> more than
+                    current spending levels.
+                  </p>
+                );
+              })()}
 
               {/* Close button — bottom right */}
               <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
