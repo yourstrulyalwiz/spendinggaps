@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface SectorData {
   id: string;
@@ -69,18 +69,27 @@ const SECTOR_ORDER = sectors.map((s) => s.id);
 
 export function BudgetExecutionSection() {
   const [activeBar, setActiveBar] = useState<SectorData | null>(null);
+  const [displayedActiveBar, setDisplayedActiveBar] = useState<SectorData | null>(null);
   const [hoveredBar, setHoveredBar] = useState<SectorData | null>(null);
+  const [fading, setFading] = useState(false);
+  const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const focused = hoveredBar || activeBar;
+  const focused = hoveredBar || displayedActiveBar;
+
+  const transitionTo = (next: SectorData | null) => {
+    if (fadeTimer.current) clearTimeout(fadeTimer.current);
+    setFading(true);
+    setActiveBar(next);
+    fadeTimer.current = setTimeout(() => {
+      setDisplayedActiveBar(next);
+      setFading(false);
+    }, 220);
+  };
 
   const navigateNext = () => {
     const currentIdx = activeBar ? SECTOR_ORDER.indexOf(activeBar.id) : -1;
     const nextIdx = currentIdx + 1;
-    if (nextIdx >= SECTOR_ORDER.length) {
-      setActiveBar(null);
-    } else {
-      setActiveBar(sectors[nextIdx]);
-    }
+    transitionTo(nextIdx >= SECTOR_ORDER.length ? null : sectors[nextIdx]);
   };
 
   return (
@@ -179,7 +188,7 @@ export function BudgetExecutionSection() {
                     onMouseEnter={() => setHoveredBar(s)}
                     onMouseLeave={() => setHoveredBar(null)}
                     onClick={() =>
-                      setActiveBar((prev) => (prev?.id === s.id ? null : s))
+                      transitionTo(activeBar?.id === s.id ? null : s)
                     }
                   >
                     {/* Unspent (top portion) */}
@@ -289,7 +298,11 @@ export function BudgetExecutionSection() {
 
         {/* ── Detail / callout panel + nav button ── */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ flex: 1 }}>
+          <div style={{
+            flex: 1,
+            opacity: hoveredBar ? 1 : fading ? 0 : 1,
+            transition: hoveredBar ? "none" : "opacity 0.22s ease",
+          }}>
           {focused ? (
             <div
               className="rounded-sm p-6"
