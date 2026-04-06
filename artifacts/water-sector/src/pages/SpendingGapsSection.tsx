@@ -237,18 +237,9 @@ export function SpendingGapsSection() {
                       fillOpacity={opacity}
                       stroke={DEFAULT_STROKE}
                       strokeWidth={0.6}
-                      onClick={() => {
-                        if (!region) return;
-                        transitionTo(activeRegion?.id === regionId ? null : region);
-                      }}
                       style={{
-                        default: { outline: "none", cursor: region ? "pointer" : "default" },
-                        hover: {
-                          outline: "none",
-                          fill: region ? region.hoverColor : "#b8cedd",
-                          fillOpacity: 1,
-                          cursor: region ? "pointer" : "default",
-                        },
+                        default: { outline: "none", cursor: "default" },
+                        hover: { outline: "none" },
                         pressed: { outline: "none" },
                       }}
                     />
@@ -318,21 +309,25 @@ export function SpendingGapsSection() {
             })}
           </ComposableMap>
 
-          {/* Map footer note */}
-          <div
-            className="px-4 py-2 text-xs flex justify-between"
-            style={{ color: "var(--econ-gray)" }}
-          >
-            <span>Click a region to see details</span>
-            {activeRegion && (
-              <button
-                className="underline"
-                style={{ color: "var(--econ-mid-blue)" }}
-                onClick={() => setActiveRegion(null)}
-              >
-                Clear selection
-              </button>
-            )}
+          {/* Map footer — "more info" trigger button */}
+          <div className="px-4 py-2 flex items-center">
+            <button
+              onClick={navigateNext}
+              style={{
+                fontSize: 11,
+                fontFamily: "Nunito, sans-serif",
+                fontWeight: 700,
+                letterSpacing: "0.04em",
+                color: "var(--econ-dark-blue)",
+                background: "none",
+                border: `1.5px solid var(--econ-dark-blue)`,
+                borderRadius: 3,
+                padding: "4px 10px",
+                cursor: "pointer",
+              }}
+            >
+              Click here for more information
+            </button>
           </div>
         </div>
 
