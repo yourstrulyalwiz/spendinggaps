@@ -312,17 +312,19 @@ export function SpendingGapsSection() {
           {/* Map footer — "more info" trigger button */}
           <div className="px-4 py-2 flex items-center">
             <button
-              onClick={navigateNext}
+              onClick={() =>
+                activeRegion ? transitionTo(null) : transitionTo(REGIONS[REGION_ORDER[0]])
+              }
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontFamily: "Nunito, sans-serif",
-                fontWeight: 700,
+                fontWeight: 600,
                 letterSpacing: "0.04em",
-                color: "var(--econ-dark-blue)",
-                background: "none",
-                border: `1.5px solid var(--econ-dark-blue)`,
-                borderRadius: 3,
-                padding: "4px 10px",
+                color: "#fff",
+                background: "var(--econ-dark-blue)",
+                border: "none",
+                borderRadius: 20,
+                padding: "7px 18px",
                 cursor: "pointer",
               }}
             >
