@@ -351,9 +351,9 @@ export function SpendingGapsSection() {
           {/* Card */}
           {displayRegion && (
             <div
-              className="rounded-sm p-5"
+              className="rounded-sm p-7"
               style={{
-                width: 260,
+                width: 364,
                 background: "rgba(255,255,255,0.96)",
                 border: "1px solid var(--econ-rule)",
                 borderLeft: `4px solid ${displayRegion.fillColor}`,
@@ -365,9 +365,9 @@ export function SpendingGapsSection() {
               <span
                 style={{
                   position: "absolute",
-                  top: 10,
-                  right: 12,
-                  fontSize: 10,
+                  top: 14,
+                  right: 17,
+                  fontSize: 14,
                   fontFamily: "Nunito, sans-serif",
                   fontWeight: 700,
                   color: "var(--econ-gray)",
@@ -379,18 +379,18 @@ export function SpendingGapsSection() {
 
               {/* Amount */}
               <p
-                className="font-heading font-black text-2xl leading-tight"
+                className="font-heading font-black text-4xl leading-tight"
                 style={{
                   color: "var(--econ-red)",
-                  paddingRight: 36,
+                  paddingRight: 50,
                 }}
               >
                 {displayRegion.amount}
               </p>
-              <p className="font-heading font-semibold text-sm mt-0.5" style={{ color: "var(--econ-dark-blue)" }}>
+              <p className="font-heading font-semibold text-xl mt-0.5" style={{ color: "var(--econ-dark-blue)" }}>
                 {displayRegion.label}
               </p>
-              <p className="text-xs uppercase tracking-wide font-semibold mt-1 mb-3" style={{ color: "var(--econ-gray)" }}>
+              <p className="text-sm uppercase tracking-wide font-semibold mt-1 mb-4" style={{ color: "var(--econ-gray)" }}>
                 Annual spending gap
               </p>
 
@@ -404,28 +404,28 @@ export function SpendingGapsSection() {
                     ? `${Math.round(multiplier)}×`
                     : `${multiplier.toFixed(1)}×`;
                 return (
-                  <div className="mb-3">
-                    <div className="text-xs mb-2" style={{ color: "var(--econ-gray)" }}>
+                  <div className="mb-5">
+                    <div className="text-sm mb-3" style={{ color: "var(--econ-gray)" }}>
                       Current vs. required annual spending
                     </div>
                     {/* Dollar labels above dots */}
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: "var(--econ-red)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 9 }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: "var(--econ-red)" }}>
                         ${current}bn
                       </span>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: "var(--econ-dark-blue)" }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: "var(--econ-dark-blue)" }}>
                         ${required % 1 === 0 ? required.toFixed(0) : required.toFixed(1)}bn
                       </span>
                     </div>
                     {/* Dumbbell track */}
-                    <div style={{ position: "relative", height: 14, display: "flex", alignItems: "center" }}>
+                    <div style={{ position: "relative", height: 20, display: "flex", alignItems: "center" }}>
                       {/* Multiplier badge centred above the line */}
                       <div style={{
                         position: "absolute",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        top: -20,
-                        fontSize: 15,
+                        top: -28,
+                        fontSize: 21,
                         fontFamily: "'Playfair Display', serif",
                         fontWeight: 900,
                         color: "var(--econ-dark-blue)",
@@ -437,17 +437,17 @@ export function SpendingGapsSection() {
                       {/* Connecting line */}
                       <div style={{
                         position: "absolute",
-                        left: 7,
-                        right: 7,
-                        height: 2,
+                        left: 10,
+                        right: 10,
+                        height: 3,
                         background: "#d0d5dd",
                       }} />
                       {/* Left dot — current spend */}
                       <div style={{
                         position: "absolute",
                         left: 0,
-                        width: 14,
-                        height: 14,
+                        width: 20,
+                        height: 20,
                         borderRadius: "50%",
                         background: "var(--econ-red)",
                         border: "2px solid #fff",
@@ -457,8 +457,8 @@ export function SpendingGapsSection() {
                       <div style={{
                         position: "absolute",
                         right: 0,
-                        width: 14,
-                        height: 14,
+                        width: 20,
+                        height: 20,
                         borderRadius: "50%",
                         background: "var(--econ-dark-blue)",
                         border: "2px solid #fff",
@@ -466,9 +466,9 @@ export function SpendingGapsSection() {
                       }} />
                     </div>
                     {/* Legend labels */}
-                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5 }}>
-                      <span style={{ fontSize: 9, color: "var(--econ-gray)" }}>Current</span>
-                      <span style={{ fontSize: 9, color: "var(--econ-gray)" }}>Required for SDGs</span>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: 7 }}>
+                      <span style={{ fontSize: 13, color: "var(--econ-gray)" }}>Current</span>
+                      <span style={{ fontSize: 13, color: "var(--econ-gray)" }}>Required for SDGs</span>
                     </div>
                   </div>
                 );
@@ -485,7 +485,7 @@ export function SpendingGapsSection() {
                 const reqStr =
                   required % 1 === 0 ? required.toFixed(0) : required.toFixed(1);
                 return (
-                  <p className="text-xs leading-relaxed" style={{ color: "#444" }}>
+                  <p className="text-sm leading-relaxed" style={{ color: "#444" }}>
                     <strong>{displayRegion.id}</strong> currently spends <strong>${current}bn</strong> per year on water and
                     sanitation. Closing the <strong>{displayRegion.amount}</strong> annual gap
                     requires <strong>${reqStr}bn</strong> — <strong>{mult}</strong> more than
@@ -495,11 +495,11 @@ export function SpendingGapsSection() {
               })()}
 
               {/* Close button — bottom right */}
-              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 14 }}>
                 <button
                   onClick={() => setActiveRegion(null)}
                   style={{
-                    fontSize: 10,
+                    fontSize: 14,
                     fontFamily: "Nunito, sans-serif",
                     fontWeight: 700,
                     letterSpacing: "0.06em",
@@ -526,14 +526,14 @@ export function SpendingGapsSection() {
                 : "Next region"
             }
             style={{
-              width: 36,
-              height: 36,
+              width: 50,
+              height: 50,
               borderRadius: "50%",
               background: "#1a3a5c",
               color: "white",
               border: "none",
               cursor: "pointer",
-              fontSize: 20,
+              fontSize: 28,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
