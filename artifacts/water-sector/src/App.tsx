@@ -14,14 +14,14 @@ function App() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-5xl mx-auto px-6 py-12 space-y-8">
+      <main className="max-w-5xl mx-auto px-6 pt-12 pb-4 space-y-8">
         <SpendingGapsSection />
         <div className="econ-section-rule pt-6">
           <BudgetExecutionSection />
         </div>
       </main>
 
-      <footer className="max-w-5xl mx-auto px-6 py-8 mt-12 border-t" style={{ borderColor: "var(--econ-rule)" }} />
+      <footer className="max-w-5xl mx-auto px-6 py-3 mt-4 border-t" style={{ borderColor: "var(--econ-rule)" }} />
     </div>
   );
 }
