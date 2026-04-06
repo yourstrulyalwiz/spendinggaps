@@ -399,7 +399,7 @@ export function SpendingGapsSection() {
                 return (
                   <div className="mb-3">
                     <div className="text-xs mb-2" style={{ color: "var(--econ-gray)" }}>
-                      Current vs. required annual spend
+                      Current vs. required annual spending
                     </div>
                     {/* Dollar labels above dots */}
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
