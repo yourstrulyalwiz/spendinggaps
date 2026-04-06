@@ -57,7 +57,7 @@ const ISO3_TO_REGION = {
 // ISO numeric → ISO3 mapping (all countries that appear in world-atlas 110m)
 // Derived from ISO 3166-1 for every country we need
 const NUMERIC_TO_ISO3 = {
-  4:"AFG",8:"ALB",12:"DZA",24:"AGO",31:"AZE",50:"BGD",51:"ARM",64:"BTN",
+  4:"AFG",8:"ALB",12:"DZA",24:"AGO",31:"AZE",32:"ARG",50:"BGD",51:"ARM",64:"BTN",
   68:"BOL",70:"BIH",72:"BWA",76:"BRA",84:"BLZ",90:"SLB",104:"MMR",108:"BDI",
   112:"BLR",116:"KHM",120:"CMR",132:"CPV",136:"CYM",140:"CAF",144:"LKA",
   148:"TCD",156:"CHN",170:"COL",174:"COM",178:"COG",180:"COD",192:"CUB",
