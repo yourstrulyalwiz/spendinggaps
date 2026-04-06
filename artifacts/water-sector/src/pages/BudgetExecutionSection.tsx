@@ -70,11 +70,10 @@ const SECTOR_ORDER = sectors.map((s) => s.id);
 export function BudgetExecutionSection() {
   const [activeBar, setActiveBar] = useState<SectorData | null>(null);
   const [displayedActiveBar, setDisplayedActiveBar] = useState<SectorData | null>(null);
-  const [hoveredBar, setHoveredBar] = useState<SectorData | null>(null);
   const [fading, setFading] = useState(false);
   const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const focused = hoveredBar || displayedActiveBar;
+  const focused = displayedActiveBar;
 
   const transitionTo = (next: SectorData | null) => {
     if (fadeTimer.current) clearTimeout(fadeTimer.current);
@@ -162,9 +161,8 @@ export function BudgetExecutionSection() {
               style={{ paddingLeft: 34, gap: 16 }}
             >
               {sectors.map((s) => {
-                const isHovered = hoveredBar?.id === s.id;
                 const isActive = activeBar?.id === s.id;
-                const isHighlighted = isHovered || isActive;
+                const isHighlighted = isActive;
 
                 const execFrac = s.executed / 100;
                 const unspentFrac = s.unspent / 100;
@@ -184,8 +182,6 @@ export function BudgetExecutionSection() {
                         : "2px solid transparent",
                       transition: "outline 0.15s",
                     }}
-                    onMouseEnter={() => setHoveredBar(s)}
-                    onMouseLeave={() => setHoveredBar(null)}
                     onClick={() =>
                       transitionTo(activeBar?.id === s.id ? null : s)
                     }
@@ -238,7 +234,7 @@ export function BudgetExecutionSection() {
                 style={{
                   fontSize: 12,
                   color:
-                    (hoveredBar?.id === s.id || activeBar?.id === s.id)
+                    activeBar?.id === s.id
                       ? s.color
                       : "var(--econ-gray)",
                   fontWeight: 600,
@@ -295,8 +291,8 @@ export function BudgetExecutionSection() {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{
             flex: 1,
-            opacity: hoveredBar ? 1 : fading ? 0 : 1,
-            transition: hoveredBar ? "none" : "opacity 0.22s ease",
+            opacity: fading ? 0 : 1,
+            transition: "opacity 0.22s ease",
           }}>
           {focused ? (
             <div
@@ -386,7 +382,7 @@ export function BudgetExecutionSection() {
                   className="text-xs mt-3"
                   style={{ color: "var(--econ-gray)" }}
                 >
-                  Hover over or click a bar to explore each sector.
+                  Click a bar to explore each sector.
                 </p>
               </div>
 
