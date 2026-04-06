@@ -21,9 +21,7 @@ function App() {
         </div>
       </main>
 
-      <footer className="max-w-5xl mx-auto px-6 py-8 mt-12 border-t" style={{ borderColor: "var(--econ-rule)", color: "var(--econ-gray)" }}>
-        <p className="text-xs">Source: World Bank estimates, 2017 constant prices. Lower estimates for 113 countries.</p>
-      </footer>
+      <footer className="max-w-5xl mx-auto px-6 py-8 mt-12 border-t" style={{ borderColor: "var(--econ-rule)" }} />
     </div>
   );
 }
