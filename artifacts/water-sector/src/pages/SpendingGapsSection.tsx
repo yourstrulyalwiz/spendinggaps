@@ -546,8 +546,13 @@ export function SpendingGapsSection() {
         </div>
       </div>
 
-      {/* Source citation */}
+      {/* Notes */}
       <p className="mt-6 text-xs leading-relaxed" style={{ color: "var(--econ-gray)" }}>
+        <span className="font-semibold">Notes:</span> Lower estimates for 113 countries in 2017 constant prices. Regional boundaries are for illustration purposes only.
+      </p>
+
+      {/* Source citation */}
+      <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--econ-gray)" }}>
         <span className="font-semibold">Source:</span> Joseph, George; Hoo, Yi Rong; Wang, Qiao; Bahuguna, Aroha; Andres, Luis Alberto.{" "}
         <em>Funding a Water-Secure Future: An Assessment of Global Public Spending</em> (English).
         Washington, D.C.: World Bank Group.{" "}
