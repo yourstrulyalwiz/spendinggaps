@@ -354,14 +354,14 @@ export function BudgetExecutionSection() {
               <div
                 className="rounded-sm p-6"
                 style={{
-                  background: "var(--econ-dark-blue)",
-                  border: "none",
-                  borderLeft: "4px solid var(--econ-red)",
+                  background: "white",
+                  border: "1px solid var(--econ-dark-blue)",
+                  borderLeft: "4px solid var(--econ-dark-blue)",
                 }}
               >
                 <p
                   className="font-heading font-black text-4xl leading-tight"
-                  style={{ color: "var(--econ-red)" }}
+                  style={{ color: "var(--econ-dark-blue)" }}
                 >
                   In the water sector,
                   <br />
@@ -371,7 +371,7 @@ export function BudgetExecutionSection() {
                 </p>
                 <p
                   className="text-sm mt-4 leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.85)" }}
+                  style={{ color: "#555" }}
                 >
                   Despite the need for increased spending, over a quarter of
                   budgeted funds go unspent in the water sector each year —
@@ -380,7 +380,7 @@ export function BudgetExecutionSection() {
                 </p>
                 <p
                   className="text-xs mt-3"
-                  style={{ color: "rgba(255,255,255,0.5)" }}
+                  style={{ color: "var(--econ-gray)" }}
                 >
                   Click a bar to explore each sector.
                 </p>
