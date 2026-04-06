@@ -380,7 +380,7 @@ export function SpendingGapsSection() {
               >
                 {displayRegion.amount}
               </p>
-              <p className="font-heading font-semibold text-sm mt-0.5" style={{ color: "#555" }}>
+              <p className="font-heading font-black text-sm mt-0.5" style={{ color: "var(--econ-dark-blue)" }}>
                 {displayRegion.label}
               </p>
               <p className="text-xs uppercase tracking-wide font-semibold mt-1 mb-3" style={{ color: "var(--econ-gray)" }}>
