@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
 const GEO_URL = "/wb-regions.geojson";
@@ -130,15 +130,27 @@ export function SpendingGapsSection() {
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
   // Keeps last selected region visible while the overlay fades out
   const [displayRegion, setDisplayRegion] = useState<Region | null>(null);
+  const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => { if (activeRegion) setDisplayRegion(activeRegion); }, [activeRegion]);
+
+  const FADE_MS = 350; // must match the CSS transition duration
+
+  const transitionTo = (next: Region | null) => {
+    if (fadeTimer.current) clearTimeout(fadeTimer.current);
+    setActiveRegion(null); // triggers fade-out (opacity → 0)
+    fadeTimer.current = setTimeout(() => {
+      setActiveRegion(next); // triggers fade-in with new content
+    }, FADE_MS);
+  };
 
   const navigateNext = () => {
     const currentId = activeRegion?.id ?? REGION_ORDER[0];
     const idx = REGION_ORDER.indexOf(currentId);
     if (idx >= REGION_ORDER.length - 1) {
-      setActiveRegion(null); // close after last region
+      transitionTo(null); // close after last region
     } else {
-      setActiveRegion(REGIONS[REGION_ORDER[idx + 1]]);
+      transitionTo(REGIONS[REGION_ORDER[idx + 1]]);
     }
   };
 
@@ -227,9 +239,7 @@ export function SpendingGapsSection() {
                       strokeWidth={0.6}
                       onClick={() => {
                         if (!region) return;
-                        setActiveRegion((prev) =>
-                          prev?.id === regionId ? null : region
-                        );
+                        transitionTo(activeRegion?.id === regionId ? null : region);
                       }}
                       style={{
                         default: { outline: "none", cursor: region ? "pointer" : "default" },
