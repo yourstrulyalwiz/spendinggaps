@@ -173,8 +173,7 @@ export function SpendingGapsSection() {
           Annual Spending Gap in Water Supply and Sanitation
         </h2>
         <p className="text-base mt-1" style={{ color: "var(--econ-gray)" }}>
-          To achieve SDG Targets 6.1 and 6.2 (2017–30). Lower estimates for
-          113 countries in 2017 constant prices.
+          To achieve SDG Targets 6.1 and 6.2 (2017–30).
         </p>
       </div>
 
