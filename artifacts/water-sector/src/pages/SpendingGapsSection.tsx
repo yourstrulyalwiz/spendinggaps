@@ -10,6 +10,7 @@ interface Region {
   label: string;
   amount: string;
   amountNum: number;
+  currentSpend: number;
   highlight?: boolean;
   description: string;
   detail: string;
@@ -26,6 +27,7 @@ const REGIONS: Record<string, Region> = {
     label: "Sub-Saharan Africa",
     amount: "$73.5 billion",
     amountNum: 73.5,
+    currentSpend: 4.6,
     highlight: true,
     description:
       "SSA has the largest annual water and sanitation spending gap — nearly half of the global total.",
@@ -40,6 +42,7 @@ const REGIONS: Record<string, Region> = {
     label: "South Asia",
     amount: "$36.1 billion",
     amountNum: 36.1,
+    currentSpend: 4.7,
     description:
       "South Asia faces a $36.1 billion annual gap, driven by rapid population growth and expanding urban informal settlements.",
     detail:
@@ -53,6 +56,7 @@ const REGIONS: Record<string, Region> = {
     label: "Latin America & Caribbean",
     amount: "$13.1 billion",
     amountNum: 13.1,
+    currentSpend: 8.0,
     description:
       "LAC requires $13.1 billion annually, with significant rural-urban disparities.",
     detail:
@@ -66,6 +70,7 @@ const REGIONS: Record<string, Region> = {
     label: "Middle East & North Africa",
     amount: "$12.1 billion",
     amountNum: 12.1,
+    currentSpend: 5.0,
     description:
       "MENA faces a $12.1 billion gap, compounded by water scarcity and conflict.",
     detail:
@@ -79,6 +84,7 @@ const REGIONS: Record<string, Region> = {
     label: "Europe & Central Asia",
     amount: "$3.2 billion",
     amountNum: 3.2,
+    currentSpend: 15.0,
     description:
       "ECA has the smallest gap at $3.2 billion, reflecting higher baseline infrastructure coverage.",
     detail:
@@ -92,6 +98,7 @@ const REGIONS: Record<string, Region> = {
     label: "East Asia & Pacific",
     amount: "$2.9 billion",
     amountNum: 2.9,
+    currentSpend: 32.2,
     description:
       "EAP requires $2.9 billion annually, with large variation across the region.",
     detail:
@@ -380,26 +387,85 @@ export function SpendingGapsSection() {
                 Annual spending gap
               </p>
 
-              {/* Share bar */}
-              <div className="mb-3">
-                <div className="text-xs mb-1" style={{ color: "var(--econ-gray)" }}>
-                  Share of $140.8bn global gap
-                </div>
-                <div style={{ height: 6, background: "#e5e7eb", borderRadius: 3, overflow: "hidden" }}>
-                  <div
-                    style={{
-                      height: "100%",
-                      width: `${(displayRegion.amountNum / 140.8) * 100}%`,
-                      background: displayRegion.fillColor,
-                      borderRadius: 3,
-                      transition: "width 0.4s ease",
-                    }}
-                  />
-                </div>
-                <div className="text-xs mt-0.5 text-right" style={{ color: "var(--econ-gray)" }}>
-                  {((displayRegion.amountNum / 140.8) * 100).toFixed(1)}%
-                </div>
-              </div>
+              {/* Dumbbell: current spend → required spend */}
+              {(() => {
+                const current = displayRegion.currentSpend;
+                const required = current + displayRegion.amountNum;
+                const multiplier = required / current;
+                const multiplierLabel =
+                  multiplier >= 10
+                    ? `${Math.round(multiplier)}×`
+                    : `${multiplier.toFixed(1)}×`;
+                return (
+                  <div className="mb-3">
+                    <div className="text-xs mb-2" style={{ color: "var(--econ-gray)" }}>
+                      Current vs. required annual spend
+                    </div>
+                    {/* Dollar labels above dots */}
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: displayRegion.fillColor }}>
+                        ${current}bn
+                      </span>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: "var(--econ-dark-blue)" }}>
+                        ${required % 1 === 0 ? required.toFixed(0) : required.toFixed(1)}bn
+                      </span>
+                    </div>
+                    {/* Dumbbell track */}
+                    <div style={{ position: "relative", height: 14, display: "flex", alignItems: "center" }}>
+                      {/* Multiplier badge centred above the line */}
+                      <div style={{
+                        position: "absolute",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        top: -16,
+                        fontSize: 11,
+                        fontFamily: "'Playfair Display', serif",
+                        fontWeight: 900,
+                        color: "var(--econ-dark-blue)",
+                        whiteSpace: "nowrap",
+                        letterSpacing: "-0.01em",
+                      }}>
+                        {multiplierLabel}
+                      </div>
+                      {/* Connecting line */}
+                      <div style={{
+                        position: "absolute",
+                        left: 7,
+                        right: 7,
+                        height: 2,
+                        background: "#d0d5dd",
+                      }} />
+                      {/* Left dot — current spend */}
+                      <div style={{
+                        position: "absolute",
+                        left: 0,
+                        width: 14,
+                        height: 14,
+                        borderRadius: "50%",
+                        background: displayRegion.fillColor,
+                        border: "2px solid #fff",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.18)",
+                      }} />
+                      {/* Right dot — required spend */}
+                      <div style={{
+                        position: "absolute",
+                        right: 0,
+                        width: 14,
+                        height: 14,
+                        borderRadius: "50%",
+                        background: "var(--econ-dark-blue)",
+                        border: "2px solid #fff",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.18)",
+                      }} />
+                    </div>
+                    {/* Legend labels */}
+                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5 }}>
+                      <span style={{ fontSize: 9, color: "var(--econ-gray)" }}>Current</span>
+                      <span style={{ fontSize: 9, color: "var(--econ-gray)" }}>Required for SDGs</span>
+                    </div>
+                  </div>
+                );
+              })()}
 
               <p className="text-xs leading-relaxed" style={{ color: "#444" }}>
                 {displayRegion.detail}
