@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
-// GeoJSON with 6 dissolved region polygons (113 limited-list countries merged by region)
-// plus individual country features for all other countries (region = null → light gray).
-const COUNTRIES_URL = "/wb-regions-limited.geojson";
+// Country-level GeoJSON: 113 countries in the limited list have a `region` property;
+// all other countries have region = null and are rendered in light gray.
+const COUNTRIES_URL = "/countries-regions.geojson";
 
 interface Region {
   id: string;
