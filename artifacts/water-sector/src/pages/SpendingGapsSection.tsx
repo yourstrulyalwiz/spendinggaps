@@ -528,7 +528,7 @@ export function SpendingGapsSection() {
 
       {/* Notes */}
       <p className="mt-6 text-xs leading-relaxed" style={{ color: "var(--econ-gray)" }}>
-        <span className="font-semibold">Notes:</span> Lower estimates for 113 countries in 2017 constant prices. Regional boundaries are for illustration purposes only.
+        <span className="font-semibold">Notes:</span> Lower estimates for 113 countries in 2017 constant prices. Spending Gap estimates for the MENA and SA regions follow the older regional classifications.
       </p>
 
       {/* Source citation */}
