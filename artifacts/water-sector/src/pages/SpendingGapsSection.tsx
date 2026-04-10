@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
-const GEO_URL = "/wb-regions.geojson";
-// Single merged land polygon — no internal country borders (generated locally)
-const LAND_URL = "/world-land.geojson";
+// Country-level GeoJSON: 113 countries in the limited list have a `region` property;
+// all other countries have region = null and are rendered in light gray.
+const COUNTRIES_URL = "/countries-regions.geojson";
 
 interface Region {
   id: string;
@@ -190,35 +190,15 @@ export function SpendingGapsSection() {
             width={960}
             height={490}
           >
-            {/* Base land layer — single merged polygon, no internal borders */}
-            <Geographies geography={LAND_URL}>
-              {({ geographies }) =>
-                geographies.map((geo) => (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill="#c8d8e4"
-                    stroke="#a8bfce"
-                    strokeWidth={0.3}
-                    style={{
-                      default: { outline: "none" },
-                      hover: { outline: "none" },
-                      pressed: { outline: "none" },
-                    }}
-                  />
-                ))
-              }
-            </Geographies>
-
-            {/* WB region layer — dissolved regions, coloured and clickable */}
-            <Geographies geography={GEO_URL}>
+            {/* Single country-level layer — 113 limited-list countries coloured by region,
+                all others rendered in light gray */}
+            <Geographies geography={COUNTRIES_URL}>
               {({ geographies }) =>
                 geographies.map((geo) => {
                   const regionId: string = geo.properties?.region;
                   const region = REGIONS[regionId];
                   const isActive = activeRegion?.id === regionId;
-                  const isOther =
-                    activeRegion && activeRegion.id !== regionId;
+                  const isOther = activeRegion && activeRegion.id !== regionId;
 
                   const fill = region
                     ? isActive
@@ -226,7 +206,7 @@ export function SpendingGapsSection() {
                       : region.fillColor
                     : DEFAULT_FILL;
 
-                  const opacity = isOther ? 0.45 : 1;
+                  const opacity = region && isOther ? 0.45 : 1;
 
                   return (
                     <Geography
@@ -235,7 +215,7 @@ export function SpendingGapsSection() {
                       fill={fill}
                       fillOpacity={opacity}
                       stroke={DEFAULT_STROKE}
-                      strokeWidth={0.6}
+                      strokeWidth={0.4}
                       style={{
                         default: { outline: "none", cursor: "default" },
                         hover: { outline: "none" },
