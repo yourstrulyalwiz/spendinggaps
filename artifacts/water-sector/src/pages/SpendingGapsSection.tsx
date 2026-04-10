@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
-const GEO_URL = "/wb-countries.geojson";
+const GEO_URL = "/wb-regions.geojson";
+// Single merged land polygon — no internal country borders (generated locally)
+const LAND_URL = "/world-land.geojson";
 
 interface Region {
   id: string;
@@ -126,6 +128,7 @@ const CALLOUTS: { id: string; subject: [number, number]; dx: number; dy: number 
 
 export function SpendingGapsSection() {
   const [activeRegion, setActiveRegion] = useState<Region | null>(null);
+  // Keeps last selected region visible while the overlay fades out
   const [displayRegion, setDisplayRegion] = useState<Region | null>(null);
   const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -178,7 +181,7 @@ export function SpendingGapsSection() {
         {/* Map — full width */}
         <div
           className="rounded-sm overflow-hidden"
-          style={{ background: "#d6e8f0" }}
+          style={{ background: "#f8f5f0" }}
         >
           <ComposableMap
             projection="geoNaturalEarth1"
@@ -187,14 +190,35 @@ export function SpendingGapsSection() {
             width={960}
             height={490}
           >
-            {/* Country layer — coloured by WB region, clickable */}
+            {/* Base land layer — single merged polygon, no internal borders */}
+            <Geographies geography={LAND_URL}>
+              {({ geographies }) =>
+                geographies.map((geo) => (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill="#c8d8e4"
+                    stroke="#a8bfce"
+                    strokeWidth={0.3}
+                    style={{
+                      default: { outline: "none" },
+                      hover: { outline: "none" },
+                      pressed: { outline: "none" },
+                    }}
+                  />
+                ))
+              }
+            </Geographies>
+
+            {/* WB region layer — dissolved regions, coloured and clickable */}
             <Geographies geography={GEO_URL}>
               {({ geographies }) =>
                 geographies.map((geo) => {
                   const regionId: string = geo.properties?.region;
                   const region = REGIONS[regionId];
                   const isActive = activeRegion?.id === regionId;
-                  const isOther = activeRegion && activeRegion.id !== regionId;
+                  const isOther =
+                    activeRegion && activeRegion.id !== regionId;
 
                   const fill = region
                     ? isActive
@@ -210,17 +234,11 @@ export function SpendingGapsSection() {
                       geography={geo}
                       fill={fill}
                       fillOpacity={opacity}
-                      stroke="#fff"
-                      strokeWidth={0.4}
-                      onClick={() => {
-                        if (region) transitionTo(REGIONS[regionId]);
-                      }}
+                      stroke={DEFAULT_STROKE}
+                      strokeWidth={0.6}
                       style={{
-                        default: { outline: "none", cursor: region ? "pointer" : "default" },
-                        hover: {
-                          outline: "none",
-                          fill: region ? region.hoverColor : DEFAULT_FILL,
-                        },
+                        default: { outline: "none", cursor: "default" },
+                        hover: { outline: "none" },
                         pressed: { outline: "none" },
                       }}
                     />

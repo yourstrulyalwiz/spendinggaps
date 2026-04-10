@@ -10,11 +10,7 @@
   },
   "private": true,
   "devDependencies": {
-    "prettier": "^3.8.1",
-    "typescript": "~5.9.2"
-  },
-  "dependencies": {
-    "mapshaper": "^0.6.113",
-    "shapefile": "^0.6.6"
+    "typescript": "~5.9.2",
+    "prettier": "^3.8.1"
   }
 }
