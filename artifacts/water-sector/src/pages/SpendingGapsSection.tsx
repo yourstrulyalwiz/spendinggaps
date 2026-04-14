@@ -3,7 +3,7 @@ import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-
 
 // Country-level GeoJSON: 113 countries in the limited list have a `region` property;
 // all other countries have region = null and are rendered in light gray.
-const COUNTRIES_URL = "/countries-regions.geojson";
+const COUNTRIES_URL = "/countries-regions.geojson?v=3";
 
 interface Region {
   id: string;
