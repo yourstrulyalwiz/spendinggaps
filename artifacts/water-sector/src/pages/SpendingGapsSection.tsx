@@ -1,9 +1,33 @@
 import { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
-// Country-level GeoJSON: 113 countries in the limited list have a `region` property;
-// all other countries have region = null and are rendered in light gray.
-const COUNTRIES_URL = "/countries-regions.geojson?v=3";
+// Compact 110m TopoJSON from world-atlas (106 KB vs 12 MB GeoJSON).
+// react-simple-maps converts it internally via topojson-client.
+const COUNTRIES_URL = "/countries-110m.json";
+
+// Numeric ISO 3166-1 → WB region for the 113 limited-list countries.
+// All other numeric IDs fall through to DEFAULT_FILL (light gray).
+const NUMERIC_TO_REGION: Record<string, string> = {
+  "4":"SA","8":"ECA","12":"MENA","24":"SSA","31":"ECA","32":"LAC","50":"SA",
+  "51":"ECA","64":"SA","68":"LAC","70":"ECA","72":"SSA","76":"LAC","84":"LAC",
+  "90":"EAP","100":"ECA","104":"EAP","108":"SSA","116":"EAP","120":"SSA",
+  "132":"SSA","140":"SSA","144":"SA","148":"SSA","156":"EAP","170":"LAC",
+  "174":"SSA","178":"SSA","180":"SSA","188":"LAC","204":"SSA","212":"LAC",
+  "214":"LAC","218":"LAC","222":"LAC","226":"SSA","231":"SSA","242":"EAP",
+  "262":"MENA","266":"SSA","268":"ECA","270":"SSA","288":"SSA","296":"EAP",
+  "308":"LAC","320":"LAC","324":"SSA","328":"LAC","332":"LAC","340":"LAC",
+  "356":"SA","360":"EAP","364":"MENA","368":"MENA","384":"SSA","388":"LAC",
+  "398":"ECA","400":"MENA","404":"SSA","417":"ECA","422":"MENA","426":"SSA",
+  "430":"SSA","450":"SSA","454":"SSA","458":"EAP","462":"SA","466":"SSA",
+  "478":"SSA","480":"SSA","484":"LAC","496":"EAP","498":"ECA","499":"ECA",
+  "504":"MENA","508":"SSA","516":"SSA","524":"SA","558":"LAC","562":"SSA",
+  "566":"SSA","586":"SA","591":"LAC","598":"EAP","600":"LAC","604":"LAC",
+  "608":"EAP","624":"SSA","626":"EAP","642":"ECA","643":"ECA","646":"SSA",
+  "662":"LAC","670":"LAC","678":"SSA","686":"SSA","688":"ECA","694":"SSA",
+  "704":"EAP","710":"SSA","729":"SSA","748":"SSA","764":"EAP","768":"SSA",
+  "788":"MENA","792":"ECA","800":"SSA","804":"ECA","807":"ECA","818":"MENA",
+  "834":"SSA","854":"SSA","894":"SSA",
+};
 
 interface Region {
   id: string;
@@ -195,7 +219,8 @@ export function SpendingGapsSection() {
             <Geographies geography={COUNTRIES_URL}>
               {({ geographies }) =>
                 geographies.map((geo) => {
-                  const regionId: string = geo.properties?.region;
+                  // world-atlas stores numeric ISO code as geo.id (e.g. "840" for USA)
+                  const regionId: string = NUMERIC_TO_REGION[String(geo.id)] ?? "";
                   const region = REGIONS[regionId];
                   const isActive = activeRegion?.id === regionId;
                   const isOther = activeRegion && activeRegion.id !== regionId;
