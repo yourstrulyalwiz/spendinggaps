@@ -1,4 +1,4 @@
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
@@ -26,35 +26,12 @@ if (!basePath) {
   );
 }
 
-function geojsonCachePlugin(): Plugin {
-  return {
-    name: "geojson-cache-headers",
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        if (req.url?.includes(".geojson")) {
-          res.setHeader("Cache-Control", "public, max-age=86400, immutable");
-        }
-        next();
-      });
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use((req, res, next) => {
-        if (req.url?.includes(".geojson")) {
-          res.setHeader("Cache-Control", "public, max-age=86400, immutable");
-        }
-        next();
-      });
-    },
-  };
-}
-
 export default defineConfig({
   base: basePath,
   plugins: [
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
-    geojsonCachePlugin(),
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
       ? [
@@ -80,13 +57,6 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          "map-vendor": ["react-simple-maps", "d3-geo", "topojson-client"],
-        },
-      },
-    },
   },
   server: {
     port,

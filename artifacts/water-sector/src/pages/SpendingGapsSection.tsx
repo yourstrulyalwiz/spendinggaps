@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, memo, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
 // Country-level GeoJSON: 113 countries in the limited list have a `region` property;
@@ -116,35 +116,6 @@ const DEFAULT_STROKE = "#fff";
 // Navigation order for the overlay card (largest gap first)
 const REGION_ORDER = ["SSA", "SA", "LAC", "MENA", "ECA", "EAP"];
 
-// Static style object — defined once outside the component to avoid recreation on every render
-const GEO_STYLE = {
-  default: { outline: "none", cursor: "default" },
-  hover: { outline: "none" },
-  pressed: { outline: "none" },
-} as const;
-
-// Memoized single geography — only re-renders when fill or opacity actually changes
-const GeoShape = memo(function GeoShape({
-  geography,
-  fill,
-  fillOpacity,
-}: {
-  geography: Parameters<typeof Geography>[0]["geography"];
-  fill: string;
-  fillOpacity: number;
-}) {
-  return (
-    <Geography
-      geography={geography}
-      fill={fill}
-      fillOpacity={fillOpacity}
-      stroke="#fff"
-      strokeWidth={0.4}
-      style={GEO_STYLE}
-    />
-  );
-});
-
 // Geographic centroids [lon, lat] for callout labels on the map
 const CALLOUTS: { id: string; subject: [number, number]; dx: number; dy: number }[] = [
   { id: "SSA",  subject: [22,  -4],  dx:  0,  dy: 0  },
@@ -184,68 +155,6 @@ export function SpendingGapsSection() {
   };
 
   const total = 140.8;
-
-  const activeRegionId = activeRegion?.id ?? null;
-
-  const annotationElements = useMemo(
-    () =>
-      CALLOUTS.map(({ id, subject, dx, dy }) => {
-        const region = REGIONS[id];
-        if (!region) return null;
-        const faded = activeRegionId !== null && activeRegionId !== id;
-        return (
-          <Annotation
-            key={id}
-            subject={subject}
-            dx={dx}
-            dy={dy}
-            connectorProps={{ stroke: "none" }}
-          >
-            <rect
-              x={-64}
-              y={-22}
-              width={128}
-              height={44}
-              rx={6}
-              ry={6}
-              fill="#1a3a5c"
-              opacity={faded ? 0.25 : 0.88}
-              style={{ pointerEvents: "none" }}
-            />
-            <text
-              textAnchor="middle"
-              y={-2}
-              fill="white"
-              opacity={faded ? 0.3 : 1}
-              style={{
-                fontSize: "15px",
-                fontFamily: "Nunito, sans-serif",
-                fontWeight: 800,
-                pointerEvents: "none",
-              }}
-            >
-              {region.amount}
-            </text>
-            <text
-              textAnchor="middle"
-              y={16}
-              fill="rgba(255,255,255,0.8)"
-              opacity={faded ? 0.3 : 1}
-              style={{
-                fontSize: "11px",
-                fontFamily: "Nunito, sans-serif",
-                fontWeight: 600,
-                pointerEvents: "none",
-                letterSpacing: "0.06em",
-              }}
-            >
-              {id}
-            </text>
-          </Annotation>
-        );
-      }),
-    [activeRegionId],
-  );
 
   return (
     <section>
@@ -297,22 +206,86 @@ export function SpendingGapsSection() {
                       : region.fillColor
                     : DEFAULT_FILL;
 
-                  const fillOpacity = region && isOther ? 0.45 : 1;
+                  const opacity = region && isOther ? 0.45 : 1;
 
                   return (
-                    <GeoShape
+                    <Geography
                       key={geo.rsmKey}
                       geography={geo}
                       fill={fill}
-                      fillOpacity={fillOpacity}
+                      fillOpacity={opacity}
+                      stroke={DEFAULT_STROKE}
+                      strokeWidth={0.4}
+                      style={{
+                        default: { outline: "none", cursor: "default" },
+                        hover: { outline: "none" },
+                        pressed: { outline: "none" },
+                      }}
                     />
                   );
                 })
               }
             </Geographies>
 
-            {/* Region callout labels — memoized, only recompute when active region changes */}
-            {annotationElements}
+            {/* Region callout labels — rounded badge, uniform navy */}
+            {CALLOUTS.map(({ id, subject, dx, dy }) => {
+              const region = REGIONS[id];
+              if (!region) return null;
+              const faded = activeRegion && activeRegion.id !== id;
+              return (
+                <Annotation
+                  key={id}
+                  subject={subject}
+                  dx={dx}
+                  dy={dy}
+                  connectorProps={{ stroke: "none" }}
+                >
+                  {/* Badge background */}
+                  <rect
+                    x={-64}
+                    y={-22}
+                    width={128}
+                    height={44}
+                    rx={6}
+                    ry={6}
+                    fill="#1a3a5c"
+                    opacity={faded ? 0.25 : 0.88}
+                    style={{ pointerEvents: "none" }}
+                  />
+                  {/* Amount */}
+                  <text
+                    textAnchor="middle"
+                    y={-2}
+                    fill="white"
+                    opacity={faded ? 0.3 : 1}
+                    style={{
+                      fontSize: "15px",
+                      fontFamily: "Nunito, sans-serif",
+                      fontWeight: 800,
+                      pointerEvents: "none",
+                    }}
+                  >
+                    {region.amount}
+                  </text>
+                  {/* Region code */}
+                  <text
+                    textAnchor="middle"
+                    y={16}
+                    fill="rgba(255,255,255,0.8)"
+                    opacity={faded ? 0.3 : 1}
+                    style={{
+                      fontSize: "11px",
+                      fontFamily: "Nunito, sans-serif",
+                      fontWeight: 600,
+                      pointerEvents: "none",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    {id}
+                  </text>
+                </Annotation>
+              );
+            })}
           </ComposableMap>
 
           {/* Map footer — "more info" trigger button */}
