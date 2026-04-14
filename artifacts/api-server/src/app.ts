@@ -9,6 +9,11 @@ const app: Express = express();
 
 app.use(compression());
 
+app.use((_req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
+
 app.use(
   pinoHttp({
     logger,

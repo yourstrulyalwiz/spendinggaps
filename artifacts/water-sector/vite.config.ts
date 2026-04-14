@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
@@ -26,12 +26,35 @@ if (!basePath) {
   );
 }
 
+function geojsonCachePlugin(): Plugin {
+  return {
+    name: "geojson-cache-headers",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.includes(".geojson")) {
+          res.setHeader("Cache-Control", "public, max-age=86400, immutable");
+        }
+        next();
+      });
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.includes(".geojson")) {
+          res.setHeader("Cache-Control", "public, max-age=86400, immutable");
+        }
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
   base: basePath,
   plugins: [
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
+    geojsonCachePlugin(),
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
       ? [
@@ -73,16 +96,10 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
-    headers: {
-      "Cache-Control": "public, max-age=0, must-revalidate",
-    },
   },
   preview: {
     port,
     host: "0.0.0.0",
     allowedHosts: true,
-    headers: {
-      "Cache-Control": "public, max-age=86400",
-    },
   },
 });
