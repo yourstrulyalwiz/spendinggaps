@@ -206,6 +206,9 @@ export function SpendingGapsSection() {
                       : region.fillColor
                     : DEFAULT_FILL;
 
+                  // Stroke matches fill so borders between same-region countries disappear,
+                  // creating a visually dissolved look while keeping region outlines crisp.
+                  const stroke = fill;
                   const opacity = region && isOther ? 0.45 : 1;
 
                   return (
@@ -214,8 +217,8 @@ export function SpendingGapsSection() {
                       geography={geo}
                       fill={fill}
                       fillOpacity={opacity}
-                      stroke={DEFAULT_STROKE}
-                      strokeWidth={0.4}
+                      stroke={stroke}
+                      strokeWidth={0.5}
                       style={{
                         default: { outline: "none", cursor: "default" },
                         hover: { outline: "none" },
