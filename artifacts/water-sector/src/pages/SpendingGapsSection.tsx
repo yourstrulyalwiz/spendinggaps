@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
+import topoData from "@/data/countries-110m.json";
 
-// Compact 110m TopoJSON from world-atlas (106 KB vs 12 MB GeoJSON).
-// react-simple-maps converts it internally via topojson-client.
-const COUNTRIES_URL = "/countries-110m.json";
+// TopoJSON is imported directly so it is bundled into the JS chunk —
+// no runtime fetch needed, map renders immediately on mount.
 
 // Numeric ISO 3166-1 → WB region for the 113 limited-list countries.
 // All other numeric IDs fall through to DEFAULT_FILL (light gray).
@@ -216,7 +216,7 @@ export function SpendingGapsSection() {
           >
             {/* Single country-level layer — 113 limited-list countries coloured by region,
                 all others rendered in light gray */}
-            <Geographies geography={COUNTRIES_URL}>
+            <Geographies geography={topoData as never}>
               {({ geographies }) =>
                 geographies.map((geo) => {
                   // world-atlas stores numeric ISO code as geo.id (e.g. "840" for USA)
