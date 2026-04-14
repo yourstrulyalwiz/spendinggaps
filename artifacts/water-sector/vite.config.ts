@@ -57,6 +57,13 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "map-vendor": ["react-simple-maps", "d3-geo", "topojson-client"],
+        },
+      },
+    },
   },
   server: {
     port,
@@ -66,10 +73,16 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+    headers: {
+      "Cache-Control": "public, max-age=0, must-revalidate",
+    },
   },
   preview: {
     port,
     host: "0.0.0.0",
     allowedHosts: true,
+    headers: {
+      "Cache-Control": "public, max-age=86400",
+    },
   },
 });

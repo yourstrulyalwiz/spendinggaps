@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import { ComposableMap, Geographies, Geography, Annotation } from "react-simple-maps";
 
 // Country-level GeoJSON: 113 countries in the limited list have a `region` property;
@@ -116,6 +116,35 @@ const DEFAULT_STROKE = "#fff";
 // Navigation order for the overlay card (largest gap first)
 const REGION_ORDER = ["SSA", "SA", "LAC", "MENA", "ECA", "EAP"];
 
+// Static style object — defined once outside the component to avoid recreation on every render
+const GEO_STYLE = {
+  default: { outline: "none", cursor: "default" },
+  hover: { outline: "none" },
+  pressed: { outline: "none" },
+} as const;
+
+// Memoized single geography — only re-renders when fill or opacity actually changes
+const GeoShape = memo(function GeoShape({
+  geography,
+  fill,
+  fillOpacity,
+}: {
+  geography: Parameters<typeof Geography>[0]["geography"];
+  fill: string;
+  fillOpacity: number;
+}) {
+  return (
+    <Geography
+      geography={geography}
+      fill={fill}
+      fillOpacity={fillOpacity}
+      stroke="#fff"
+      strokeWidth={0.4}
+      style={GEO_STYLE}
+    />
+  );
+});
+
 // Geographic centroids [lon, lat] for callout labels on the map
 const CALLOUTS: { id: string; subject: [number, number]; dx: number; dy: number }[] = [
   { id: "SSA",  subject: [22,  -4],  dx:  0,  dy: 0  },
@@ -206,21 +235,14 @@ export function SpendingGapsSection() {
                       : region.fillColor
                     : DEFAULT_FILL;
 
-                  const opacity = region && isOther ? 0.45 : 1;
+                  const fillOpacity = region && isOther ? 0.45 : 1;
 
                   return (
-                    <Geography
+                    <GeoShape
                       key={geo.rsmKey}
                       geography={geo}
                       fill={fill}
-                      fillOpacity={opacity}
-                      stroke={DEFAULT_STROKE}
-                      strokeWidth={0.4}
-                      style={{
-                        default: { outline: "none", cursor: "default" },
-                        hover: { outline: "none" },
-                        pressed: { outline: "none" },
-                      }}
+                      fillOpacity={fillOpacity}
                     />
                   );
                 })
